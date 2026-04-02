@@ -2,6 +2,17 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+float px, py;
+
+void createPlayer()
+{
+    glColor3f(1,1,0);
+    glPointSize(8);
+    glBegin(GL_POINTS);
+    glVertex2i(px, py);
+    glEnd();
+}
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -34,14 +45,17 @@ int main()
     glViewport(0, 0, 800, 600);
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
+    px = 300, py = 400;
     while(!glfwWindowShouldClose(window))
     {
+        glClear(GL_COLOR_BUFFER_BIT);
+        createPlayer();
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
     glfwTerminate();
-    
+
     return 0;
 }
