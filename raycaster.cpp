@@ -13,6 +13,7 @@ void createPlayer()
     glEnd();
 }
 
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -48,6 +49,23 @@ int main()
     px = 0.0f, py = 0.0f;
     while(!glfwWindowShouldClose(window))
     {
+        if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        {
+            px -= 0.1f;
+        }
+        if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        {
+            px += 0.1f;
+        }
+        if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        {
+            py -= 0.1f;
+        }
+        if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        {
+            py += 0.1f;
+        }
+
         glClear(GL_COLOR_BUFFER_BIT);
         createPlayer();
 
