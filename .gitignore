@@ -1,0 +1,35 @@
+# build artifacts
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# visual studio
+.vs/
+*.vcxproj*
+*.sln
+*.filters
+*.user
+*.dir/
+
+# debug / release
+Debug/
+Release/
+x64/
+x86/
+
+# binaries
+*.exe
+*.out
+*.obj
+*.o
+*.dll
+*.lib
+
+# glad (generated)
+glad.dir/
+
+# misc
+*.log
+.DS_Store
