@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\jfire\Desktop\Raycaster\build\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>C:\Users\jfire\OneDrive\Desktop\raycaster\raycaster\build\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>C:\Users\jfire\Desktop\Raycaster\build\Debug\raycaster.exe</FullPath>
+      <FullPath>C:\Users\jfire\OneDrive\Desktop\raycaster\raycaster\build\Debug\raycaster.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

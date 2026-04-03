@@ -1,9 +1,9 @@
 
-if (NOT EXISTS "C:/Users/jfire/Desktop/Raycaster/build/external/glfw/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: \"C:/Users/jfire/Desktop/Raycaster/build/external/glfw/install_manifest.txt\"")
+if (NOT EXISTS "C:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build/external/glfw/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: \"C:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build/external/glfw/install_manifest.txt\"")
 endif()
 
-file(READ "C:/Users/jfire/Desktop/Raycaster/build/external/glfw/install_manifest.txt" files)
+file(READ "C:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build/external/glfw/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})

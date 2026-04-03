@@ -9,7 +9,7 @@ void createPlayer()
     glColor3f(1,1,0);
     glPointSize(8);
     glBegin(GL_POINTS);
-    glVertex2i(px, py);
+    glVertex2f(px, py);
     glEnd();
 }
 
@@ -47,23 +47,24 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     px = 0.0f, py = 0.0f;
+    float speed = 0.001f;
     while(!glfwWindowShouldClose(window))
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
-            px -= 0.1f;
+            px -= speed;
         }
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
-            px += 0.1f;
+            px += speed;
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
-            py -= 0.1f;
+            py += speed;
         }
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
-            py += 0.1f;
+            py -= speed;
         }
 
         glClear(GL_COLOR_BUFFER_BIT);

@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\Users\jfire\Desktop\Raycaster\external\src\gl.c">
+    <ClCompile Include="C:\Users\jfire\OneDrive\Desktop\raycaster\raycaster\external\src\gl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="C:\Users\jfire\Desktop\Raycaster\CMakeLists.txt" />
+    <CustomBuild Include="C:\Users\jfire\OneDrive\Desktop\raycaster\raycaster\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{57BF32E2-D144-3B5B-85B2-F85B8C5E32C7}</UniqueIdentifier>
+      <UniqueIdentifier>{9DC4B215-4A8A-303C-B152-438DAFB642ED}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

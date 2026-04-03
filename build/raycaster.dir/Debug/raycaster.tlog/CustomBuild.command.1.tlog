@@ -1,6 +1,6 @@
-^C:\USERS\JFIRE\DESKTOP\RAYCASTER\CMAKELISTS.TXT
+^C:\USERS\JFIRE\ONEDRIVE\DESKTOP\RAYCASTER\RAYCASTER\CMAKELISTS.TXT
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/jfire/Desktop/Raycaster -BC:/Users/jfire/Desktop/Raycaster/build --check-stamp-file C:/Users/jfire/Desktop/Raycaster/build/CMakeFiles/generate.stamp
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/jfire/OneDrive/Desktop/raycaster/raycaster -BC:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build --check-stamp-file C:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build/CMakeFiles/generate.stamp
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

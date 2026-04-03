@@ -1,6 +1,6 @@
-^C:\USERS\JFIRE\DESKTOP\RAYCASTER\BUILD\CMAKEFILES\58FBDDA1AAD20FA82206A0C473AA5D08\GENERATE.STAMP.RULE
+^C:\USERS\JFIRE\ONEDRIVE\DESKTOP\RAYCASTER\RAYCASTER\BUILD\CMAKEFILES\DE0C774E2D4FEEEA94029C39D9563B63\GENERATE.STAMP.RULE
 setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/jfire/Desktop/Raycaster -BC:/Users/jfire/Desktop/Raycaster/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/jfire/Desktop/Raycaster/build/raycaster.sln
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/jfire/OneDrive/Desktop/raycaster/raycaster -BC:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/jfire/OneDrive/Desktop/raycaster/raycaster/build/raycaster.sln
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
