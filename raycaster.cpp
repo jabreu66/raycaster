@@ -4,7 +4,7 @@
 
 float px, py;
 
-const int screen_size = 2; // b/c in openGL the screen goes from -1 to 1 
+const float screen_size = 2.0f; // b/c in openGL the screen goes from -1 to 1 
 
 const int map_rows = 10;
 const int map_cols = 10;
@@ -35,15 +35,39 @@ void drawTile(float x1, float x2, float y1, float y2)
 
 void drawMap()
 {
-    int tile_width = screen_size / map_rows;
-    int tile_height = screen_size / map_cols;
+    float tile_width = screen_size / map_cols;
+    float tile_height = screen_size / map_rows;
 
-    int x1 = -1, y1 = -1;
+    // int x1 = -1, y1 = -1;
 
-    for(int x = 0; x < map_rows; x++){
-        for(int y = 0; y < map_cols; y++)
+    for(int rows = 0; rows < map_rows; rows++){
+        for(int cols = 0; cols < map_cols; cols++)
         {
-            x1 = 
+           float x1 = -1.0f + (cols * tile_width);
+           float y1 = 1.0f - (rows * tile_height);
+           float x2 = x1 + tile_width;
+           float y2 = y1 - tile_height;
+           
+           if(map[rows][cols] == 1)
+           {
+                glColor3f(0.2f, 0.2f, 0.8f);
+           }
+           else
+           {
+                glColor3f(0.1f, 0.1f, 0.1f);
+           }
+
+           drawTile(x1, x2, y1, y2);
+
+           glColor3f(0,0,0);
+
+           glBegin(GL_LINE_LOOP);
+           glVertex2f(x1, y1);
+           glVertex2f(x1, y2);
+           glVertex2f(x2, y2);
+           glVertex2f(x2, y1);
+           glEnd();
+
         }
     }
 }
@@ -113,6 +137,7 @@ int main()
         }
 
         glClear(GL_COLOR_BUFFER_BIT);
+        drawMap();
         createPlayer();
 
         glfwSwapBuffers(window);
