@@ -2,12 +2,19 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-float px, py;
+float px = 0, py = 0;
+
+int playerRow = 4, playerCol = 5;
 
 const float screen_size = 2.0f; // b/c in openGL the screen goes from -1 to 1 
 
+
 const int map_rows = 10;
 const int map_cols = 10;
+
+
+float tile_width = screen_size / map_cols;
+float tile_height = screen_size / map_rows;
 
 int map[10][10] = {
     {1,0,0,0,0,0,0,0,0,1},
@@ -35,8 +42,6 @@ void drawTile(float x1, float x2, float y1, float y2)
 
 void drawMap()
 {
-    float tile_width = screen_size / map_cols;
-    float tile_height = screen_size / map_rows;
 
     // int x1 = -1, y1 = -1;
 
@@ -85,7 +90,7 @@ void createPlayer()
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height); // this is the part of the screen we want to draw on
 }
 
 int main()
@@ -114,9 +119,13 @@ int main()
     
     glViewport(0, 0, 800, 600);
 
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
     px = 0.0f, py = 0.0f;
     float speed = 0.001f;
+
+    px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
+    py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
+
     while(!glfwWindowShouldClose(window))
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -136,7 +145,7 @@ int main()
             py -= speed;
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
         drawMap();
         createPlayer();
 
