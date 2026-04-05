@@ -87,6 +87,17 @@ void createPlayer()
     glEnd();
 }
 
+int computePlayerCol(float px)
+{
+    int col = (px + 1)/ tile_width;
+    return col;
+}
+
+int computePlayerRow(float py)
+{
+    int row = (1 - py)/ tile_height;
+    return row;
+}
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -126,6 +137,7 @@ int main()
     px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
     py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
 
+
     while(!glfwWindowShouldClose(window))
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -144,7 +156,10 @@ int main()
         {
             py -= speed;
         }
+            int r = computePlayerRow(py);
+            int c = computePlayerCol(px);
 
+            std::cout << "row: " << r << " col " << c << std::endl;
         glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
         drawMap();
         createPlayer();
