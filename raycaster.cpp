@@ -4,6 +4,11 @@
 
 float px, py;
 
+const int screen_size = 2; // b/c in openGL the screen goes from -1 to 1 
+
+const int map_rows = 10;
+const int map_cols = 10;
+
 int map[10][10] = {
     {1,0,0,0,0,0,0,0,0,1},
     {1,1,1,0,0,0,0,0,0,1},
@@ -22,11 +27,27 @@ void drawTile(float x1, float x2, float y1, float y2)
     glBegin(GL_QUADS);
     glVertex2f(x1, y1);
     glVertex2f(x1, y2);
-    glVertex2f(x2, y1);
     glVertex2f(x2, y2);
+    glVertex2f(x2, y1);
     glEnd();
     
 }
+
+void drawMap()
+{
+    int tile_width = screen_size / map_rows;
+    int tile_height = screen_size / map_cols;
+
+    int x1 = -1, y1 = -1;
+
+    for(int x = 0; x < map_rows; x++){
+        for(int y = 0; y < map_cols; y++)
+        {
+            x1 = 
+        }
+    }
+}
+
 
 void createPlayer()
 {
