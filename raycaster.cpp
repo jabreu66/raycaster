@@ -4,6 +4,7 @@
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
+float newX = 0, newY = 0;
 
 int playerRow = 4, playerCol = 5;
 
