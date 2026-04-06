@@ -3,6 +3,7 @@
 #include <iostream>
 
 float px = 0, py = 0;
+float dirX = 1, dirY = 0;
 
 int playerRow = 4, playerCol = 5;
 
@@ -78,6 +79,16 @@ void drawMap()
 }
 
 
+void drawPlayerDirection()
+{
+    glColor3f(1,0,0);
+
+    glBegin(GL_LINES);
+    glVertex2f(px, py);
+    glVertex2f(px + dirX * 0.08f, py + dirY * 0.08f);
+    glEnd();
+}
+
 void createPlayer()
 {
     glColor3f(1,1,0);
@@ -104,12 +115,9 @@ bool is_collision(float px, float py)
     int row = computePlayerRow(py);
     int col = computePlayerCol(px);
 
-    if(row < 0)
+    if(row < 0 || row >= map_rows || col < 0 || col >= map_cols)
     {
-        px = -1;
-    }
-    else if (row > map_rows){
-        px = 1;
+        return true;
     }
 
     if(map[row][col] == 1)
@@ -165,25 +173,25 @@ int main()
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
-            if(!is_collision(px, py)){
+            if(!is_collision(px - speed, py)){
                 px -= speed;
             }
         }
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
-            if(!is_collision(px, py)){
+            if(!is_collision(px + speed, py)){
             px += speed;
             }
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
-            if(!is_collision(px, py)){
+            if(!is_collision(px, py + speed)){
             py += speed;
             }
         }
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
-            if(!is_collision(px, py)){
+            if(!is_collision(px, py - speed)){
             py -= speed;
             }
         }
@@ -195,6 +203,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
         drawMap();
         createPlayer();
+        drawPlayerDirection();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
