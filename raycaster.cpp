@@ -99,6 +99,29 @@ int computePlayerRow(float py)
     return row;
 }
 
+bool is_collision(float px, float py)
+{
+    int row = computePlayerRow(py);
+    int col = computePlayerCol(px);
+
+    if(row < 0)
+    {
+        px = -1;
+    }
+    else if (row > map_rows){
+        px = 1;
+    }
+
+    if(map[row][col] == 1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height); // this is the part of the screen we want to draw on
@@ -132,7 +155,7 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
     px = 0.0f, py = 0.0f;
-    float speed = 0.001f;
+    float speed = 0.005f;
 
     px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
     py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
@@ -142,24 +165,33 @@ int main()
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
-            px -= speed;
+            if(!is_collision(px, py)){
+                px -= speed;
+            }
         }
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
+            if(!is_collision(px, py)){
             px += speed;
+            }
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
+            if(!is_collision(px, py)){
             py += speed;
+            }
         }
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
+            if(!is_collision(px, py)){
             py -= speed;
+            }
         }
             int r = computePlayerRow(py);
             int c = computePlayerCol(px);
+            bool collided = is_collision(px, py);
 
-            std::cout << "row: " << r << " col " << c << std::endl;
+            std::cout << "row: " << r << " col " << c <<  " is collided " << collided << std::endl;
         glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
         drawMap();
         createPlayer();
