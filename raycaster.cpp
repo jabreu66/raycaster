@@ -187,14 +187,16 @@ int main()
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
-            if(!is_collision(px, py + speed)){
-               dirX += speed;
+            if(!is_collision(px + speed * dirX, py + speed * dirY)){
+                px += dirX*speed;
+                py += dirY * speed;
             }
         }
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
-            if(!is_collision(px, py - speed)){
-            py -= speed;
+            if(!is_collision(px - speed * dirX, py - speed * dirY)){
+              px -= dirX * speed;
+              py -= dirY * speed;
             }
         }
             int r = computePlayerRow(py);
