@@ -1,6 +1,7 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <cmath>
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
@@ -168,26 +169,26 @@ int main()
 
     px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
     py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
-
+    float turn_speed = 0.005f;
 
     while(!glfwWindowShouldClose(window))
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
-            if(!is_collision(px - speed, py)){
-                px -= speed;
-            }
+            float oldDirX = dirX;
+            dirX = oldDirX * cos(turn_speed) - dirY * sin(turn_speed);
+            dirY = oldDirX * sin(turn_speed) + dirY * cos(turn_speed);
         }
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
-            if(!is_collision(px + speed, py)){
-            px += speed;
-            }
+            float oldDirX = dirX;
+            dirX = oldDirX * cos(-turn_speed) - dirY * sin(-turn_speed);
+            dirY = oldDirX * sin(-turn_speed) + dirY * cos(-turn_speed);
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
             if(!is_collision(px, py + speed)){
-            py += speed;
+               dirX += speed;
             }
         }
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -200,7 +201,7 @@ int main()
             int c = computePlayerCol(px);
             bool collided = is_collision(px, py);
 
-            std::cout << "row: " << r << " col " << c <<  " is collided " << collided << std::endl;
+            // std::cout << "row: " << r << " col " << c <<  " is collided " << collided << std::endl;
         glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
         drawMap();
         createPlayer();
