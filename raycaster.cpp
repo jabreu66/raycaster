@@ -5,7 +5,9 @@
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
+float rayDirX = dirX, rayDirY = dirY;
 float newX = 0, newY = 0;
+
 
 int playerRow = 4, playerCol = 5;
 
@@ -130,6 +132,15 @@ bool is_collision(float px, float py)
     {
         return false;
     }
+}
+
+void castRay(float px, float py)
+{
+    int p_column = computePlayerCol(px);
+    int p_row = computePlayerRow(py);
+
+    float deltaDistX = abs(1/rayDirX);
+    float deltaDistY = abs(1/rayDirY);
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
