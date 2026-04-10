@@ -5,7 +5,6 @@
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
-float rayDirX = dirX, rayDirY = dirY;
 float newX = 0, newY = 0;
 
 
@@ -136,11 +135,45 @@ bool is_collision(float px, float py)
 
 void castRay(float px, float py)
 {
+    float rayDirX = dirX, rayDirY = dirY;
+
     int p_column = computePlayerCol(px);
     int p_row = computePlayerRow(py);
 
-    float deltaDistX = abs(1/rayDirX);
-    float deltaDistY = abs(1/rayDirY);
+    float deltaDistX = (rayDirX == 0) ? 1e30f : std::abs(1/rayDirX); // make sure we don't div by 0
+    float deltaDistY = (rayDirY == 0) ? 1e30f : std::abs(1/rayDirY);
+
+    float sideDistX = 0, sideDistY = 0;
+    int x_step = 0, y_step = 0;
+
+    if(rayDirX < 0)
+    {
+        x_step = -1;
+        float leftSide = -1.0f + (p_column * tile_width);
+        float distToLeftSide = px - leftSide;
+        sideDistX = distToLeftSide / std::abs(rayDirX); 
+    }
+    else if (rayDirX > 0)
+    {
+        x_step = 1;
+        float rightSide = -1.0f + (p_column * tile_width) + tile_width;
+        float distToRightSide = std::abs(px - rightSide);
+        sideDistX = distToRightSide / std::abs(rayDirX); 
+    }
+    if(rayDirY < 0)
+    {
+        y_step = -1;
+        float top = 1.0f - (p_row * tile_height);
+        float distToTop = top - py;
+        sideDistY = distToTop / std::abs(rayDirY); 
+    }
+    else if(rayDirY > 0)
+    {
+        y_step = 1;
+        float bottom = 1.0f - (p_row * tile_height + tile_height);
+        float distToBottom = py - bottom;
+        sideDistY = distToBottom / std::abs(rayDirY); 
+    }
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
@@ -150,6 +183,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 int main()
 {
+    // std::cout << __cplusplus << std::endl;
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -180,7 +214,7 @@ int main()
 
     px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
     py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
-    float turn_speed = 0.005f;
+    float turn_speed = 0.05f;
 
     while(!glfwWindowShouldClose(window))
     {
