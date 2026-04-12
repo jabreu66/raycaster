@@ -145,6 +145,8 @@ void castRay(float px, float py)
 
     float sideDistX = 0, sideDistY = 0;
     int x_step = 0, y_step = 0;
+    int hit = 0;
+    int side = 0;
 
     if(rayDirX < 0)
     {
@@ -173,6 +175,11 @@ void castRay(float px, float py)
         float bottom = 1.0f - (p_row * tile_height + tile_height);
         float distToBottom = py - bottom;
         sideDistY = distToBottom / std::abs(rayDirY); 
+    }
+
+    while(hit == 0)
+    {
+        
     }
 }
 
