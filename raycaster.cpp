@@ -147,6 +147,7 @@ void castRay(float px, float py)
     int x_step = 0, y_step = 0;
     int hit = 0;
     int side = 0;
+    float dist_to_wall = 0;
 
     if(rayDirX < 0)
     {
@@ -179,7 +180,28 @@ void castRay(float px, float py)
 
     while(hit == 0)
     {
-        
+        if(sideDistX < sideDistY) // X wall (vertical line) is closer
+        {
+            sideDistX += deltaDistX;
+            p_column += x_step;
+            side = 0; // side 0 means vertical hit
+            hit = (is_collision(p_row, p_column)) ? 1 : 0;
+            if(hit)
+            {
+                dist_to_wall = sideDistX - deltaDistX;
+            }
+        }
+        else
+        {
+            sideDistY += deltaDistY;
+            p_row += y_step;
+            side = 1; // side 1 means horizontal hit
+            hit = (is_collision(p_row, p_column)) ? 1 : 0;
+            if(hit)
+            {
+                dist_to_wall = sideDistY - deltaDistY ;
+            }
+        }
     }
 }
 
