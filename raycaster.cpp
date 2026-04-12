@@ -95,7 +95,7 @@ void drawPlayerDirection()
 void createPlayer()
 {
     glColor3f(1,1,0);
-    glPointSize(8);
+    glPointSize(10);
     glBegin(GL_POINTS);
     glVertex2f(px, py);
     glEnd();
