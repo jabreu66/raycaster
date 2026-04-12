@@ -82,6 +82,16 @@ void drawMap()
 }
 
 
+void drawPlayerEndpoint(float x_endpoint, float y_endpoint)
+{
+    glColor3f(1,1,0);
+
+    glBegin(GL_LINES);
+    glVertex2f(px, py);
+    glVertex2f(x_endpoint, y_endpoint);
+    glEnd();
+}
+
 void drawPlayerDirection()
 {
     glColor3f(1,0,0);
@@ -140,8 +150,8 @@ void castRay(float px, float py)
     int p_column = computePlayerCol(px);
     int p_row = computePlayerRow(py);
 
-    float deltaDistX = (rayDirX == 0) ? 1e30f : std::abs(1/rayDirX); // make sure we don't div by 0
-    float deltaDistY = (rayDirY == 0) ? 1e30f : std::abs(1/rayDirY);
+    float deltaDistX = (rayDirX == 0) ? 1e30f : std::abs(tile_width/rayDirX); // make sure we don't div by 0
+    float deltaDistY = (rayDirY == 0) ? 1e30f : std::abs(tile_height/rayDirY);
 
     float sideDistX = 0, sideDistY = 0;
     int x_step = 0, y_step = 0;
@@ -185,7 +195,7 @@ void castRay(float px, float py)
             sideDistX += deltaDistX;
             p_column += x_step;
             side = 0; // side 0 means vertical hit
-            hit = (is_collision(p_row, p_column)) ? 1 : 0;
+            hit = (map[p_row][p_column] > 0) ? 1 : 0;
             if(hit)
             {
                 dist_to_wall = sideDistX - deltaDistX;
@@ -196,13 +206,20 @@ void castRay(float px, float py)
             sideDistY += deltaDistY;
             p_row += y_step;
             side = 1; // side 1 means horizontal hit
-            hit = (is_collision(p_row, p_column)) ? 1 : 0;
+            hit = (map[p_row][p_column] > 0) ? 1 : 0;
             if(hit)
             {
                 dist_to_wall = sideDistY - deltaDistY ;
             }
         }
     }
+    
+    float x_endpoint = px + rayDirX * dist_to_wall;
+    float y_endpoint = py + rayDirY * dist_to_wall;
+    drawPlayerEndpoint(x_endpoint, y_endpoint);
+
+    std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " " << side << std::endl;
+
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
@@ -282,6 +299,7 @@ int main()
         drawMap();
         createPlayer();
         drawPlayerDirection();
+        castRay(px, py);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
