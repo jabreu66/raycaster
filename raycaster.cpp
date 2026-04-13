@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cmath>
 
+#define PI 3.14159
+
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
 float newX = 0, newY = 0;
@@ -143,7 +145,7 @@ bool is_collision(float px, float py)
     }
 }
 
-void castRay(float px, float py)
+void castRay(float px, float py, float dirX, float dirY)
 {
     float rayDirX = dirX, rayDirY = dirY;
 
@@ -219,7 +221,7 @@ void castRay(float px, float py)
     float y_endpoint = py + rayDirY * dist_to_wall;
     drawPlayerEndpoint(x_endpoint, y_endpoint);
 
-    std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
+    // std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
 
 }
 
@@ -300,7 +302,14 @@ int main()
         drawMap();
         createPlayer();
         drawPlayerDirection();
-        castRay(px, py);
+        float fov = PI/2;
+        for(int i = 0; i <= 45; i++)
+        {
+            float angle = -fov/2 + fov * (i/45);
+            float newXDir = dirX * cos(angle) - dirY * sin(angle);
+            float newYDir = dirY * cos(angle) + dirX * sin(angle);
+            castRay(px, py, newXDir, newYDir);
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();
