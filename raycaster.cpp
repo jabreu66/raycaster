@@ -305,7 +305,7 @@ int main()
         float fov = PI/2;
         for(int i = 0; i <= 45; i++)
         {
-            float angle = -fov/2 + fov * (i/45);
+            float angle = -fov/2 + fov * (i/45.0f);
             float newXDir = dirX * cos(angle) - dirY * sin(angle);
             float newYDir = dirY * cos(angle) + dirX * sin(angle);
             castRay(px, py, newXDir, newYDir);
