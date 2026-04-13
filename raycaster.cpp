@@ -175,17 +175,18 @@ void castRay(float px, float py)
     }
     if(rayDirY < 0)
     {
-        y_step = -1;
-        float top = 1.0f - (p_row * tile_height);
-        float distToTop = top - py;
-        sideDistY = distToTop / std::abs(rayDirY); 
-    }
-    else if(rayDirY > 0)
-    {
         y_step = 1;
         float bottom = 1.0f - (p_row * tile_height + tile_height);
         float distToBottom = py - bottom;
         sideDistY = distToBottom / std::abs(rayDirY); 
+    }
+    else if(rayDirY > 0)
+    {
+        y_step = -1;
+        float top = 1.0f - (p_row * tile_height);
+        float distToTop = top - py;
+        sideDistY = distToTop / std::abs(rayDirY); 
+        
     }
 
     while(hit == 0)
@@ -218,7 +219,7 @@ void castRay(float px, float py)
     float y_endpoint = py + rayDirY * dist_to_wall;
     drawPlayerEndpoint(x_endpoint, y_endpoint);
 
-    std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " " << side << std::endl;
+    std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
 
 }
 
