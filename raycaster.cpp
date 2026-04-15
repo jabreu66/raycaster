@@ -145,7 +145,7 @@ bool is_collision(float px, float py)
     }
 }
 
-void castRay(float px, float py, float dirX, float dirY)
+void castRay(float px, float py, float dirX, float dirY, float column, float angle)
 {
     float rayDirX = dirX, rayDirY = dirY;
 
@@ -219,7 +219,33 @@ void castRay(float px, float py, float dirX, float dirY)
     
     float x_endpoint = px + rayDirX * dist_to_wall;
     float y_endpoint = py + rayDirY * dist_to_wall;
-    drawPlayerEndpoint(x_endpoint, y_endpoint);
+    // drawPlayerEndpoint(x_endpoint, y_endpoint);
+
+    float wall_height = tile_width / dist_to_wall; // further the wall, the smaller it appears
+
+    float column_slice = 2.0f / 45.0f; // my screen size / amount of rays I'm shooting out
+
+    float x1 = -1.0f + column_slice * column;
+    float x2 = x1 + tile_width;
+    float y1 = -wall_height / 2; // come back to this
+    float y2 = wall_height / 2;
+
+    if(side == 1)
+    {
+        glColor3f(0.8f, 0.8f, 0.8f);
+    }
+    else
+    {
+        glColor3f(0.5f, 0.5f, 0.5);
+    }
+
+    glBegin(GL_QUADS);
+    glVertex2f(x1, y1);
+    glVertex2f(x1, y2);
+    glVertex2f(x2, y2);
+    glVertex2f(x2, y1);
+    glEnd();
+
 
     // std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
 
@@ -259,37 +285,41 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
     px = 0.0f, py = 0.0f;
-    float speed = 0.005f;
+    float speed = 0.0005f;
 
     px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
     py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
-    float turn_speed = 0.05f;
+    float turn_speed = 0.005f;
 
     while(!glfwWindowShouldClose(window))
     {
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
             float oldDirX = dirX;
-            dirX = oldDirX * cos(turn_speed) - dirY * sin(turn_speed);
-            dirY = oldDirX * sin(turn_speed) + dirY * cos(turn_speed);
+            dirX = oldDirX * cos(-turn_speed) - dirY * sin(-turn_speed);
+            dirY = oldDirX * sin(-turn_speed) + dirY * cos(-turn_speed);
         }
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
             float oldDirX = dirX;
-            dirX = oldDirX * cos(-turn_speed) - dirY * sin(-turn_speed);
-            dirY = oldDirX * sin(-turn_speed) + dirY * cos(-turn_speed);
+            dirX = oldDirX * cos(turn_speed) - dirY * sin(turn_speed);
+            dirY = oldDirX * sin(turn_speed) + dirY * cos(turn_speed);
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
-            if(!is_collision(px + speed * dirX, py + speed * dirY)){
+            if(!is_collision(px + speed * dirX, py)){
                 px += dirX*speed;
+            }
+            if(!is_collision(px, py + speed * dirY)){
                 py += dirY * speed;
             }
         }
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
-            if(!is_collision(px - speed * dirX, py - speed * dirY)){
+            if(!is_collision(px - speed * dirX, py)){
               px -= dirX * speed;
+            }
+            if(!is_collision(px, py - speed * dirY)){
               py -= dirY * speed;
             }
         }
@@ -299,16 +329,16 @@ int main()
 
             // std::cout << "row: " << r << " col " << c <<  " is collided " << collided << std::endl;
         glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
-        drawMap();
-        createPlayer();
-        drawPlayerDirection();
+        // drawMap();
+        // createPlayer();
+        // drawPlayerDirection();
         float fov = PI/2;
-        for(int i = 0; i <= 45; i++)
+        for(int i = 0; i < 45; i++)
         {
             float angle = -fov/2 + fov * (i/45.0f);
             float newXDir = dirX * cos(angle) - dirY * sin(angle);
             float newYDir = dirY * cos(angle) + dirX * sin(angle);
-            castRay(px, py, newXDir, newYDir);
+            castRay(px, py, newXDir, newYDir, i, angle);
         }
 
         glfwSwapBuffers(window);
