@@ -226,7 +226,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     float column_slice = 2.0f / 45.0f; // my screen size / amount of rays I'm shooting out
 
     float x1 = -1.0f + column_slice * column;
-    float x2 = x1 + tile_width;
+    float x2 = x1 + column_slice;
     float y1 = -wall_height / 2; // come back to this
     float y2 = wall_height / 2;
 
