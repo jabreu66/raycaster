@@ -23,16 +23,16 @@ float tile_width = screen_size / map_cols;
 float tile_height = screen_size / map_rows;
 
 int map[10][10] = {
+    {1,1,1,1,1,1,1,1,1,1},
+    {1,3,1,0,0,0,0,0,0,1},
+    {2,2,2,0,0,3,3,3,3,1},
     {1,0,0,0,0,0,0,0,0,1},
-    {1,1,1,0,0,0,0,0,0,1},
-    {1,1,1,0,0,1,1,1,1,1},
-    {1,1,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,1,1},
-    {1,0,0,0,1,0,1,1,1,1},
+    {1,0,0,0,3,0,2,2,2,1},
     {1,0,0,0,0,0,0,0,0,1},
-    {1,0,1,1,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,0,0,0,0,0,0,0,1}
+    {1,0,2,2,0,0,0,0,0,1},
+    {1,0,0,0,0,0,4,4,0,1},
+    {1,1,1,1,1,1,1,1,1,1}
 };
 
 void drawTile(float x1, float x2, float y1, float y2)
@@ -135,7 +135,7 @@ bool is_collision(float px, float py)
         return true;
     }
 
-    if(map[row][col] == 1)
+    if(map[row][col] > 0)
     {
         return true;
     }
@@ -230,14 +230,36 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     float y1 = -wall_height / 2; // come back to this
     float y2 = wall_height / 2;
 
+    int color = map[p_row][p_column];
+    float r = 0, g = 0, b = 0;
+
+    switch(color)
+    {
+        case 1:
+            r = 1, g = 0, b = 0;
+            break;
+        case 2:
+             r = 0, g = 1, b = 0;
+            break;
+        case 3:
+             r = 0, g = 0, b = 1;
+             break;
+        case 4:
+             r = 1, g = 1, b = 0;
+            break;
+    }
+
+    glColor3f(r, g, b);
+
+
     if(side == 1)
     {
-        glColor3f(0.8f, 0.8f, 0.8f);
+        r = r*0.6f;
+        g = g*0.6f;
+        b = b*0.6f;
+        glColor3f(r,g,b);
     }
-    else
-    {
-        glColor3f(0.5f, 0.5f, 0.5);
-    }
+  
 
     glBegin(GL_QUADS);
     glVertex2f(x1, y1);
@@ -247,7 +269,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     glEnd();
 
 
-    // std::cout << "p_row: " << p_row << " p_col: " << p_column << " dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
+    // std::cout << "p_row: " << p_row << " p_col: " << p_column << std::endl; //" dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
 
 }
 
@@ -285,11 +307,11 @@ int main()
 
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback); 
     px = 0.0f, py = 0.0f;
-    float speed = 0.0005f;
+    float speed = 0.005f;
 
     px = -1.0f + (playerCol * tile_width) + tile_width / 2.0f;
     py = 1.0f - (playerRow * tile_height) - tile_height / 2.0f;
-    float turn_speed = 0.005f;
+    float turn_speed = 0.05f;
 
     while(!glfwWindowShouldClose(window))
     {
@@ -340,6 +362,7 @@ int main()
             float newYDir = dirY * cos(angle) + dirX * sin(angle);
             castRay(px, py, newXDir, newYDir, i, angle);
         }
+        
 
         glfwSwapBuffers(window);
         glfwPollEvents();
