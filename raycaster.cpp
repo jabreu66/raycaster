@@ -6,7 +6,7 @@
 #define PI 3.14159
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH 600
-#define HORIZON SCREEN_HEIGHT/SCREEN_WIDTH
+#define HORIZON SCREEN_HEIGHT/2
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
@@ -148,6 +148,16 @@ bool is_collision(float px, float py)
     }
 }
 
+void floor_cast()
+{
+    for(int y = HORIZON + 1; y < SCREEN_HEIGHT; y++)
+    {
+        float p = y - HORIZON; // number of horizontal lines down from the center
+        float posZ =  SCREEN_HEIGHT/2.0f; //center of our screen (in terms of pixels)
+        float row_dist = posZ/p;
+    }
+}
+
 void castRay(float px, float py, float dirX, float dirY, float column, float angle)
 {
     float rayDirX = dirX, rayDirY = dirY;
@@ -283,6 +293,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 int main()
 {
+    std::cout << " horizon is " << HORIZON << std::endl;
     // std::cout << __cplusplus << std::endl;
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
