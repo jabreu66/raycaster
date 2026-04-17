@@ -4,6 +4,9 @@
 #include <cmath>
 
 #define PI 3.14159
+#define SCREEN_HEIGHT 800
+#define SCREEN_WIDTH 600
+#define HORIZON SCREEN_HEIGHT/SCREEN_WIDTH
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
@@ -286,7 +289,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Raycaster", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Raycaster", NULL, NULL);
     if(window == NULL) {
         std::cout << "failed to create GLFW window " << std::endl;
         glfwTerminate();
