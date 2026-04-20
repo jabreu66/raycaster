@@ -6,11 +6,12 @@
 #define PI 3.14159
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH 600
-#define HORIZON SCREEN_HEIGHT/2
+#define HORIZON SCREEN_HEIGHT/2.0f
 
 float px = 0, py = 0;
 float dirX = 1, dirY = 0;
 float newX = 0, newY = 0;
+float planeX = 0.0f, planeY = 0.66f;
 
 
 int playerRow = 4, playerCol = 5;
@@ -153,7 +154,7 @@ void floor_cast()
     for(int y = HORIZON + 1; y < SCREEN_HEIGHT; y++)
     {
         float p = y - HORIZON; // number of horizontal lines down from the center
-        float posZ =  SCREEN_HEIGHT/2.0f; //center of our screen (in terms of pixels)
+        float posZ =  HORIZON; //center of our screen (in terms of pixels)
         float row_dist = posZ/p;
     }
 }
@@ -293,7 +294,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 int main()
 {
-    std::cout << " horizon is " << HORIZON << std::endl;
+    // std::cout << " horizon is " << HORIZON << std::endl;
     // std::cout << __cplusplus << std::endl;
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
