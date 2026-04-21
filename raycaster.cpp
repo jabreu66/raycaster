@@ -155,12 +155,16 @@ void floor_cast()
     {
         float p = y - HORIZON; // number of horizontal lines down from the center
         float posZ =  HORIZON; //center of our screen (in terms of pixels)
-        float row_dist = posZ/p;
+        float row_dist = posZ/p; // dist of current row to the floor
 
+        
         float rayDirX0 = dirX - planeX;
         float rayDirY0 = dirY - planeY;
         float rayDirX1 = dirX + planeX;
-        float rayDirY1 = dirY + planeY;
+        float rayDirY1 = dirY + planeY; 
+
+        float stepX = row_dist * (rayDirX1 - rayDirX0)/SCREEN_HEIGHT;
+        float stepY = row_dist * (rayDirY1 - rayDirY0)/SCREEN_HEIGHT;
 
     }
 }
