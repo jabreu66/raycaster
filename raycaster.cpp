@@ -8,10 +8,10 @@
 #define SCREEN_WIDTH 600
 #define HORIZON SCREEN_HEIGHT/2.0f
 
-float px = 0, py = 0;
-float dirX = 1, dirY = 0;
-float newX = 0, newY = 0;
-float planeX = 0.0f, planeY = 0.66f;
+float px{0}, py{0} ;
+float dirX{1}, dirY{0};
+float newX{0}, newY{0};
+float planeX{ 0.0f}, planeY{1.0f};
 
 
 int playerRow = 4, playerCol = 5;
@@ -151,8 +151,7 @@ bool is_collision(float px, float py)
 
 void floor_cast()
 {
-    for(int y = HORIZON + 1; y < SCREEN_HEIGHT; y++)
-    {
+    for(int y = HORIZON + 1; y < SCREEN_HEIGHT; y++){
         float p = y - HORIZON; // number of horizontal lines down from the center
         float posZ =  HORIZON; //center of our screen (in terms of pixels)
         float row_dist = posZ/p; // dist of current row to the floor
@@ -163,8 +162,16 @@ void floor_cast()
         float rayDirX1 = dirX + planeX;
         float rayDirY1 = dirY + planeY; 
 
-        float stepX = row_dist * (rayDirX1 - rayDirX0)/SCREEN_HEIGHT;
-        float stepY = row_dist * (rayDirY1 - rayDirY0)/SCREEN_HEIGHT;
+        float stepX = row_dist * (rayDirX1 - rayDirX0)/SCREEN_WIDTH;
+        float stepY = row_dist * (rayDirY1 - rayDirY0)/SCREEN_WIDTH;
+
+        float posX = px + row_dist * rayDirX0;
+        float posY = py + row_dist * rayDirY0;
+
+        for(int i = 0; i < SCREEN_WIDTH; i++){
+
+
+        }
 
     }
 }
