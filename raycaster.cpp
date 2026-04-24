@@ -380,12 +380,20 @@ int main()
             float oldDirX = dirX;
             dirX = oldDirX * cos(-turn_speed) - dirY * sin(-turn_speed);
             dirY = oldDirX * sin(-turn_speed) + dirY * cos(-turn_speed);
+
+            float oldPlaneX = planeX;
+            planeX = oldPlaneX * cos(-turn_speed) - planeY * sin(-turn_speed);
+            planeY = oldPlaneX * sin(-turn_speed) + planeY * cos(-turn_speed);
         }
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
             float oldDirX = dirX;
             dirX = oldDirX * cos(turn_speed) - dirY * sin(turn_speed);
             dirY = oldDirX * sin(turn_speed) + dirY * cos(turn_speed);
+
+            float oldPlaneX = planeX;
+            planeX = oldPlaneX * cos(turn_speed) - planeY * sin(turn_speed);
+            planeY = oldPlaneX * sin(turn_speed) + planeY * cos(turn_speed);
         }
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
