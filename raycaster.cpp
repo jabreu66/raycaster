@@ -165,12 +165,36 @@ void floor_cast()
         float stepX = row_dist * (rayDirX1 - rayDirX0)/SCREEN_WIDTH;
         float stepY = row_dist * (rayDirY1 - rayDirY0)/SCREEN_WIDTH;
 
+        // leftmost map coords
         float posX = px + row_dist * rayDirX0;
         float posY = py + row_dist * rayDirY0;
 
-        for(int i = 0; i < SCREEN_WIDTH; i++){
+        for(int x = 0; x < SCREEN_WIDTH; x++){
+
+            int row = computePlayerRow(posX);
+            int col = computePlayerCol(posY);
+
+            if(row + col % 2 == 0)
+            {
+                glColor3f(0.2f,0.2f,0.2f);
+            }
+            else
+            {
+                glColor3f(0.5f, 0.5f, 0.5f);
+            }
+
+            //convert pixel to screen coordinates
+
+            float screen_x = -1.0f + 2.0f * x /SCREEN_WIDTH;
+            float screen_y = 1.0f - 2.0f * y /SCREEN_HEIGHT;
+
+            glBegin(GL_POINTS);
+            glVertex2f(screen_x, screen_y);
+            glEnd();
 
 
+            posX += stepX;
+            posY += stepY;
         }
 
     }
@@ -252,14 +276,18 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     float y_endpoint = py + rayDirY * dist_to_wall;
     // drawPlayerEndpoint(x_endpoint, y_endpoint);
 
-    float wall_height = tile_width / dist_to_wall; // further the wall, the smaller it appears
+    float fisheye_dist = dist_to_wall * cos(angle);
+    float wall_height = tile_width / fisheye_dist; // further the wall, the smaller it appears
 
     float column_slice = 2.0f / 45.0f; // my screen size / amount of rays I'm shooting out
 
     float x1 = -1.0f + column_slice * column;
     float x2 = x1 + column_slice;
-    float y1 = -wall_height / 2; // come back to this
-    float y2 = wall_height / 2;
+    float y1 = -wall_height / 2.0f; // come back to this
+    float y2 = wall_height / 2.0f;
+
+    if(y1 < -1.0f) y1 = -1.0f;
+    if(y2 > 1.0f) y2 = 1.0f;
 
     int color = map[p_row][p_column];
     float r = 0, g = 0, b = 0;
@@ -386,6 +414,7 @@ int main()
         // drawMap();
         // createPlayer();
         // drawPlayerDirection();
+         floor_cast();
         float fov = PI/2;
         for(int i = 0; i < 45; i++)
         {
