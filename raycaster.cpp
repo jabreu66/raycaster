@@ -171,16 +171,22 @@ void floor_cast()
 
         for(int x = 0; x < SCREEN_WIDTH; x++){
 
-            int row = computePlayerRow(posX);
-            int col = computePlayerCol(posY);
+            int row = computePlayerRow(posY);
+            int col = computePlayerCol(posX);
 
-            if(row + col % 2 == 0)
-            {
-                glColor3f(0.2f,0.2f,0.2f);
-            }
+            if(row >= 0 && row < map_rows && col >= 0 && col < map_cols){ 
+                if((row + col )% 2 == 0)
+                {
+                    glColor3f(0.2f,0.2f,0.2f);
+                }
+                else
+                {
+                    glColor3f(0.5f, 0.5f, 0.5f);
+                }
+             }
             else
             {
-                glColor3f(0.5f, 0.5f, 0.5f);
+                glColor3f(0.05f, 0.05f, 0.05f);
             }
 
             //convert pixel to screen coordinates
@@ -191,7 +197,6 @@ void floor_cast()
             glBegin(GL_POINTS);
             glVertex2f(screen_x, screen_y);
             glEnd();
-
 
             posX += stepX;
             posY += stepY;
