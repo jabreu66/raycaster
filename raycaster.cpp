@@ -32,9 +32,9 @@ int map[10][10] = {
     {2,2,2,0,0,3,3,3,3,1},
     {1,0,0,0,0,0,0,0,0,1},
     {1,0,0,0,0,0,0,0,1,1},
-    {1,0,0,0,3,0,2,2,2,1},
-    {1,0,0,0,0,0,0,0,0,1},
-    {1,0,2,2,0,0,0,0,0,1},
+    {1,0,0,0,4,0,2,2,2,1},
+    {1,0,0,0,4,0,0,0,0,1},
+    {1,0,2,2,4,0,0,0,0,1},
     {1,0,0,0,0,0,4,4,0,1},
     {1,1,1,1,1,1,1,1,1,1}
 };
@@ -63,7 +63,7 @@ void drawMap()
            float x2 = x1 + tile_width;
            float y2 = y1 - tile_height;
            
-           if(map[rows][cols] == 1)
+           if(map[rows][cols] >= 1)
            {
                 glColor3f(0.2f, 0.2f, 0.8f);
            }
@@ -171,22 +171,18 @@ void floor_cast()
 
         for(int x = 0; x < SCREEN_WIDTH; x++){
 
-            int row = computePlayerRow(posY);
-            int col = computePlayerCol(posX);
+            int row = int(posY)/tile_height;
+            int col  = int(posX)/tile_width;
 
-            if(row >= 0 && row < map_rows && col >= 0 && col < map_cols){ 
-                if((row + col )% 2 == 0)
-                {
-                    glColor3f(0.2f,0.2f,0.2f);
-                }
-                else
-                {
-                    glColor3f(0.5f, 0.5f, 0.5f);
-                }
-             }
+            if((row + col) % 2 == 0)
+            {
+                // std::cout << " true " << row << " " << col << std::endl;
+                glColor3f(0.2f,0.2f,0.2f);
+            }
             else
             {
-                glColor3f(0.05f, 0.05f, 0.05f);
+                // std::cout << "false " << row << " " << col << std::endl;
+                glColor3f(0.5f, 0.5f, 0.5f);
             }
 
             //convert pixel to screen coordinates
@@ -197,6 +193,58 @@ void floor_cast()
             glBegin(GL_POINTS);
             glVertex2f(screen_x, screen_y);
             glEnd();
+
+            posX += stepX;
+            posY += stepY;
+        }
+
+    }
+}
+
+void roof_cast()
+{
+    for(int y = 0; y < HORIZON; y++){
+        float p = HORIZON - y; 
+        float posZ =  HORIZON; //center of our screen (in terms of pixels)
+        float row_dist = posZ/p; // dist of current row to the floor
+
+        
+        float rayDirX0 = dirX - planeX;
+        float rayDirY0 = dirY - planeY;
+        float rayDirX1 = dirX + planeX;
+        float rayDirY1 = dirY + planeY; 
+
+        float stepX = row_dist * (rayDirX1 - rayDirX0)/SCREEN_WIDTH;
+        float stepY = row_dist * (rayDirY1 - rayDirY0)/SCREEN_WIDTH;
+
+        // leftmost map coords
+        float posX = px + row_dist * rayDirX0;
+        float posY = py + row_dist * rayDirY0;
+
+        for(int x = 0; x < SCREEN_WIDTH; x++){
+
+            int row = int(posY)/tile_height;
+            int col  = int(posX)/tile_width;
+
+            //  if((row + col) % 2 == 0)
+            // {
+            //     glColor3f(0.2f,0.2f,1.0f);
+            // }
+            // else
+            // {
+            //     glColor3f(1.0f, 1.0f, 1.0f);
+            // }
+
+             glColor3f(0.2f, 0.2f, 0.2f);
+            //convert pixel to screen coordinates
+
+            float screen_x = -1.0f + 2.0f * x /SCREEN_WIDTH;
+            float screen_y = 1.0f - 2.0f * y /SCREEN_HEIGHT;
+
+            glBegin(GL_POINTS);
+            glVertex2f(screen_x, screen_y);
+            glEnd();
+
 
             posX += stepX;
             posY += stepY;
@@ -279,6 +327,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     
     float x_endpoint = px + rayDirX * dist_to_wall;
     float y_endpoint = py + rayDirY * dist_to_wall;
+  
     // drawPlayerEndpoint(x_endpoint, y_endpoint);
 
     float fisheye_dist = dist_to_wall * cos(angle);
@@ -424,10 +473,11 @@ int main()
 
             // std::cout << "row: " << r << " col " << c <<  " is collided " << collided << std::endl;
         glClear(GL_COLOR_BUFFER_BIT); // delete old frame's previous image, without this I'd get stackable frame stuff
-        // drawMap();
-        // createPlayer();
-        // drawPlayerDirection();
-         floor_cast();
+        int height, width;
+        glfwGetFramebufferSize(window, &width, &height);
+        glViewport(0, 0, width, height);
+        roof_cast();
+        floor_cast();
         float fov = PI/2;
         for(int i = 0; i < 45; i++)
         {
@@ -436,6 +486,13 @@ int main()
             float newYDir = dirY * cos(angle) + dirX * sin(angle);
             castRay(px, py, newXDir, newYDir, i, angle);
         }
+        int minimap_height, minimap_width;
+        glfwGetFramebufferSize(window, &minimap_width, &minimap_height);
+        glViewport(0, minimap_height-200,200, 200 );
+        drawMap();
+        createPlayer();
+        drawPlayerDirection();
+        // drawPlayerEndpoint();
         
 
         glfwSwapBuffers(window);
