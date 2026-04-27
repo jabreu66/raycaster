@@ -13,6 +13,9 @@ float dirX{1}, dirY{0};
 float newX{0}, newY{0};
 float planeX{ 0.0f}, planeY{1.0f};
 
+float rayEndX[45];
+float rayEndY[45];
+
 
 int playerRow = 4, playerCol = 5;
 
@@ -329,6 +332,8 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     float y_endpoint = py + rayDirY * dist_to_wall;
   
     // drawPlayerEndpoint(x_endpoint, y_endpoint);
+    rayEndX[(int)column] = x_endpoint;
+    rayEndY[(int)column] = y_endpoint;
 
     float fisheye_dist = dist_to_wall * cos(angle);
     float wall_height = tile_width / fisheye_dist; // further the wall, the smaller it appears
@@ -489,11 +494,15 @@ int main()
         int minimap_height, minimap_width;
         glfwGetFramebufferSize(window, &minimap_width, &minimap_height);
         glViewport(0, minimap_height-200,200, 200 );
+
         drawMap();
         createPlayer();
         drawPlayerDirection();
         // drawPlayerEndpoint();
-        
+        for(int i = 0; i < 45; i++)
+        {
+            drawPlayerEndpoint(rayEndX[i], rayEndY[i]);
+        }        
 
         glfwSwapBuffers(window);
         glfwPollEvents();
