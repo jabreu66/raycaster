@@ -499,7 +499,7 @@ int main()
         createPlayer();
         drawPlayerDirection();
         // drawPlayerEndpoint();
-        for(int i = 0; i < 45; i++)
+        for(int i = 0; i < 50; i++)
         {
             drawPlayerEndpoint(rayEndX[i], rayEndY[i]);
         }        
