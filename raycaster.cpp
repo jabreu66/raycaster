@@ -20,8 +20,18 @@ float rayEndY[NUM_RAYS];
 
 int playerRow = 4, playerCol = 5;
 
-const float screen_size = 2.0f; // b/c in openGL the screen goes from -1 to 1 
+const int TEXT_WIDTH = 64;
+const int TEXT_HEIGHT = 64;
 
+struct Color{
+    float r; 
+    float g;
+    float b;
+}
+
+Color wallTexture[TEXT_HEIGHT][TEXT_WIDTH];
+
+const float screen_size = 2.0f; // b/c in openGL the screen goes from -1 to 1 
 
 const int map_rows = 10;
 const int map_cols = 10;
@@ -89,6 +99,11 @@ void drawMap()
 
         }
     }
+}
+
+void drawTextures()
+{
+    
 }
 
 
@@ -500,7 +515,11 @@ int main()
         createPlayer();
         drawPlayerDirection();
         // drawPlayerEndpoint();
+<<<<<<< HEAD
         for(int i = 0; i < NUM_RAYS; i++)
+=======
+        for(int i = 0; i < 45; i++)
+>>>>>>> 279d1ac (working on textures)
         {
             drawPlayerEndpoint(rayEndX[i], rayEndY[i]);
         }        
