@@ -378,6 +378,15 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
 
     int x_texture = int(TEXT_WIDTH * wallX);
 
+    if(x_texture < 0)
+    {
+        x_texture = 0;
+    }
+    else if(x_texture > TEXT_WIDTH - 1)
+    {
+        x_texture  = TEXT_WIDTH - 1;
+    }
+
   
     // drawPlayerEndpoint(x_endpoint, y_endpoint);
     rayEndX[(int)column] = x_endpoint;
@@ -390,14 +399,16 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
 
     float x1 = -1.0f + column_slice * column;
     float x2 = x1 + column_slice;
-    float y1 = -wall_height / 2.0f; // come back to this
-    float y2 = wall_height / 2.0f;
+    float wallTop = -wall_height / 2.0f; 
+    float wallBottom = wall_height / 2.0f;
 
-    if(y1 < -1.0f) y1 = -1.0f;
-    if(y2 > 1.0f) y2 = 1.0f;
+    float clippedTop = wallTop;
+    float clippedBottom = wallBottom;
 
-    // very dumb way to handle textures (I will change this later)
-    Color c = wallTexture[0][0];
+    if(clippedTop < -1.0f) clippedTop = -1.0f;
+    if(clippedBottom > 1.0f) clippedBottom = 1.0f;
+
+ 
 
     float r = c.r;
     float g = c.g;
