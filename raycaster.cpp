@@ -7,7 +7,7 @@
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH 600
 #define HORIZON SCREEN_HEIGHT/2.0f
-#define NUM_RAYS 300
+#define NUM_RAYS 90
 
 float px{0}, py{0} ;
 float dirX{1}, dirY{0};
@@ -380,24 +380,31 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     if(y1 < -1.0f) y1 = -1.0f;
     if(y2 > 1.0f) y2 = 1.0f;
 
-    int color = map[p_row][p_column];
-    float r = 0, g = 0, b = 0;
+    // very dumb way to handle textures (I will change this later)
+    Color c = wallTexture[0][0];
 
-    switch(color)
-    {
-        case 1:
-            r = 1, g = 0, b = 0;
-            break;
-        case 2:
-             r = 0, g = 1, b = 0;
-            break;
-        case 3:
-             r = 0, g = 0, b = 1;
-             break;
-        case 4:
-             r = 1, g = 1, b = 0;
-            break;
-    }
+    float r = c.r;
+    float g = c.g;
+    float b = c.b;
+
+    // int color = map[p_row][p_column];
+    // float r = 0, g = 0, b = 0;
+
+    // switch(color)
+    // {
+    //     case 1:
+    //         r = 1, g = 0, b = 0;
+    //         break;
+    //     case 2:
+    //          r = 0, g = 1, b = 0;
+    //         break;
+    //     case 3:
+    //          r = 0, g = 0, b = 1;
+    //          break;
+    //     case 4:
+    //          r = 1, g = 1, b = 0;
+    //         break;
+    // }
 
     glColor3f(r, g, b);
 
