@@ -27,9 +27,7 @@ struct Color{
     float r; 
     float g;
     float b;
-}
-
-Color wallTexture[TEXT_HEIGHT][TEXT_WIDTH];
+};
 
 const float screen_size = 2.0f; // b/c in openGL the screen goes from -1 to 1 
 
@@ -101,9 +99,27 @@ void drawMap()
     }
 }
 
-void drawTextures()
+Color wallTexture[TEXT_HEIGHT][TEXT_WIDTH];
+
+void generateTextures()
 {
-    
+    for(int y = 0; y < TEXT_HEIGHT; y++)
+    {
+        for(int x = 0; x < TEXT_WIDTH; x++)
+        {
+            // 8x8 checkerboard style
+            bool checker = (((x / 8) + (y / 8)) % 2 == 0);
+
+            if(checker)
+            {
+                wallTexture[y][x] = {0.4f, 0.4f, 0.4f};
+            }
+            else
+            {
+                wallTexture[y][x] = {0.8f, 0.2f, 0.1f};
+            }
+        }
+    }
 }
 
 
@@ -437,6 +453,8 @@ int main()
         std::cout << "failed to initialize GLAD" << std::endl;
         return -1;
     }
+
+    generateTextures();
     
     glViewport(0, 0, 800, 600);
 
@@ -515,11 +533,7 @@ int main()
         createPlayer();
         drawPlayerDirection();
         // drawPlayerEndpoint();
-<<<<<<< HEAD
         for(int i = 0; i < NUM_RAYS; i++)
-=======
-        for(int i = 0; i < 45; i++)
->>>>>>> 279d1ac (working on textures)
         {
             drawPlayerEndpoint(rayEndX[i], rayEndY[i]);
         }        
