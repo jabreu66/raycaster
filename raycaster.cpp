@@ -99,7 +99,7 @@ void drawMap()
     }
 }
 
-Color wallTexture[TEXT_HEIGHT][TEXT_WIDTH];
+Color wallTexture[TEXT_HEIGHT][TEXT_WIDTH]; // text_w --> which vertical strip of the texture, text_h --> how far down the strip goes
 
 void generateTextures()
 {
@@ -362,6 +362,22 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     
     float x_endpoint = px + rayDirX * dist_to_wall;
     float y_endpoint = py + rayDirY * dist_to_wall;
+
+    float wallX; // ray's pos along wall face
+
+    if(side == 0) // hit vertical edge of wall
+    {
+        wallX = (1.0f - y_endpoint) / tile_height;
+    }
+    else
+    {
+        wallX = (1.0f  + x_endpoint) / tile_width;
+    }
+
+    wallX = wallX - floor(wallX);
+
+    int x_texture = int(TEXT_WIDTH * wallX);
+
   
     // drawPlayerEndpoint(x_endpoint, y_endpoint);
     rayEndX[(int)column] = x_endpoint;
