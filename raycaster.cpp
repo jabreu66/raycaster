@@ -408,18 +408,55 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     if(clippedTop < -1.0f) clippedTop = -1.0f;
     if(clippedBottom > 1.0f) clippedBottom = 1.0f; // remember, screen is -1 to 1
 
-    for(float y = clippedTop; y < clippedBottom; y += 0.05f)
+    float step = 0.05f; // how much to increase y by for each quad I draw (the smaller, the smoother the texture will look)
+
+    for(float y = clippedTop; y < clippedBottom; y += step)
     {
         float distanceFromTop = y - wallTop;
         float distFromTexture = distanceFromTop / (wallBottom - wallTop); // how far down the wall slice we are, as a percentage
-        int y_texture = int(distFromTexture * TEXT_HEIGHT);
+        int y_texture = int(distFromTexture * TEXT_HEIGHT); // get the actual texture that is the same percentage down as the wall slice
+
+        if(y_texture < 0)
+        {
+            y_texture = 0;
+        }
+        else if(y_texture > TEXT_HEIGHT - 1)
+        {
+            y_texture = TEXT_HEIGHT - 1;
+        }
+
+        Color c = wallTexture[int(y_texture)][x_texture];
+
+        float r = c.r;
+        float g = c.g;
+        float b = c.b;
+
+            glColor3f(r, g, b);
+
+
+        if(side == 1)
+        {
+            r = r*0.6f;
+            g = g*0.6f;
+            b = b*0.6f;
+            glColor3f(r,g,b);
+        }
+  
+        float y_next = y + step;
+
+        if(y_next > clippedBottom)
+        {
+            y_next = clippedBottom;
+        }
+
+        glBegin(GL_QUADS);
+        glVertex2f(x1, y);
+        glVertex2f(x1, y_next);
+        glVertex2f(x2, y_next);
+        glVertex2f(x2, y);
+        glEnd();
     }
 
- 
-
-    float r = c.r;
-    float g = c.g;
-    float b = c.b;
 
     // int color = map[p_row][p_column];
     // float r = 0, g = 0, b = 0;
@@ -440,24 +477,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     //         break;
     // }
 
-    glColor3f(r, g, b);
 
-
-    if(side == 1)
-    {
-        r = r*0.6f;
-        g = g*0.6f;
-        b = b*0.6f;
-        glColor3f(r,g,b);
-    }
-  
-
-    glBegin(GL_QUADS);
-    glVertex2f(x1, y1);
-    glVertex2f(x1, y2);
-    glVertex2f(x2, y2);
-    glVertex2f(x2, y1);
-    glEnd();
 
 
     // std::cout << "p_row: " << p_row << " p_col: " << p_column << std::endl; //" dist_to_wall: " << dist_to_wall << " x_endpoint: " << x_endpoint << " y_endpoint: " << y_endpoint << " side " << side << std::endl;
