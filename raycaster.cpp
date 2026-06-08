@@ -406,7 +406,14 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     float clippedBottom = wallBottom;
 
     if(clippedTop < -1.0f) clippedTop = -1.0f;
-    if(clippedBottom > 1.0f) clippedBottom = 1.0f;
+    if(clippedBottom > 1.0f) clippedBottom = 1.0f; // remember, screen is -1 to 1
+
+    for(float y = clippedTop; y < clippedBottom; y += 0.05f)
+    {
+        float distanceFromTop = y - wallTop;
+        float distFromTexture = distanceFromTop / (wallBottom - wallTop); // how far down the wall slice we are, as a percentage
+        int y_texture = int(distFromTexture * TEXT_HEIGHT);
+    }
 
  
 
