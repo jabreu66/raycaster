@@ -367,11 +367,13 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
 
     if(side == 0) // hit vertical edge of wall
     {
-        wallX = (1.0f - y_endpoint) / tile_height;
+        float tileTop = 1.0f - (p_row * tile_height);
+        wallX = (tileTop - y_endpoint) / tile_height;
     }
     else
     {
-        wallX = (1.0f  + x_endpoint) / tile_width;
+        float tileLeft = -1.0f + (p_column * tile_width);
+        wallX = (x_endpoint - tileLeft) / tile_width;
     }
 
     wallX = wallX - floor(wallX);
