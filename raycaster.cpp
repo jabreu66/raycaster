@@ -410,7 +410,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
     if(clippedTop < -1.0f) clippedTop = -1.0f;
     if(clippedBottom > 1.0f) clippedBottom = 1.0f; // remember, screen is -1 to 1
 
-    float step = 0.05f; // how much to increase y by for each quad I draw (the smaller, the smoother the texture will look)
+    float step = 0.005f; // how much to increase y by for each quad I draw (the smaller, the smoother the texture will look)
 
     for(float y = clippedTop; y < clippedBottom; y += step)
     {
