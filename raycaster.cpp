@@ -99,7 +99,7 @@ void drawMap()
     }
 }
 
-Color wallTexture[TEXT_HEIGHT][TEXT_WIDTH]; // text_w --> which vertical strip of the texture, text_h --> how far down the strip goes
+Color wallTexture[5][TEXT_HEIGHT][TEXT_WIDTH]; // text_w --> which vertical strip of the texture, text_h --> how far down the strip goes
 
 void generateTextures()
 {
@@ -110,14 +110,15 @@ void generateTextures()
             // 8x8 checkerboard style
             bool checker = (((x / 8) + (y / 8)) % 2 == 0);
 
-            if(checker)
-            {
-                wallTexture[y][x] = {0.4f, 0.4f, 0.4f};
-            }
-            else
-            {
-                wallTexture[y][x] = {0.8f, 0.2f, 0.1f};
-            }
+          
+            wallTexture[1][y][x] = checker ?  Color{0.4f, 0.4f, 0.4f} : Color{1.0f, 0.1f, 0.1f  }; // red
+
+            wallTexture[2][y][x] = checker ?  Color{0.4f, 0.4f, 0.4f} : Color{0.1f, 1.0f, 0.1f}; // green
+
+            wallTexture[3][y][x] = checker ? Color{0.4f, 0.4f, 0.4f} : Color{0.1f, 0.1f, 1.0f}; // blue
+
+            wallTexture[4][y][x] = checker ? Color{0.4f, 0.4f, 0.4f} : Color{1.0f, 1.0f, 0.1f}; // yellow
+            
         }
     }
 }
@@ -300,6 +301,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
 
     float sideDistX = 0, sideDistY = 0;
     int x_step = 0, y_step = 0;
+    int wallType = 0;
     int hit = 0;
     int side = 0;
     float dist_to_wall = 0;
@@ -345,6 +347,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
             if(hit)
             {
                 dist_to_wall = sideDistX - deltaDistX;
+                wallType = map[p_row][p_column];
             }
         }
         else
@@ -356,6 +359,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
             if(hit)
             {
                 dist_to_wall = sideDistY - deltaDistY ;
+                wallType = map[p_row][p_column];
             }
         }
     }
@@ -427,7 +431,7 @@ void castRay(float px, float py, float dirX, float dirY, float column, float ang
             y_texture = TEXT_HEIGHT - 1;
         }
 
-        Color c = wallTexture[int(y_texture)][x_texture];
+        Color c = wallTexture[wallType][int(y_texture)][x_texture];
 
         float r = c.r;
         float g = c.g;
